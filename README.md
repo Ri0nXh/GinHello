@@ -1,1 +1,1 @@
-"# GinHello" 
+# GinHello

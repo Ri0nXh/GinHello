@@ -1,0 +1,16 @@
+mode: "dev"
+server_port: 8000
+
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "123456"
+  db: "go_stu"
+  max_open_conns: 100,
+  max_idle_conns: 10
+
+redis:
+  host: "127.0.0.1"
+  port: 16379
+  db: 0
