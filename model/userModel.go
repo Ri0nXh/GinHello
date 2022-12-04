@@ -19,3 +19,8 @@ type UserInfo struct {
 	Email    string `json:"email"`
 	Username string `json:"username"`
 }
+
+type UserListParams struct {
+	Page     int `json:"page"`
+	PageSize int `json:"page_size"`
+}

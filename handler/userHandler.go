@@ -3,6 +3,7 @@ package handler
 import (
 	"GinHello/db"
 	"GinHello/model"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -50,5 +51,24 @@ func Login(ctx *gin.Context) {
 		"code": 0,
 		"msg":  "success",
 		"data": userinfo,
+	})
+}
+
+func GetUserList(ctx *gin.Context) {
+	userListModelP := model.UserListParams{}
+	if err := ctx.ShouldBind(&userListModelP); err != nil {
+		log.Println("Params invalid ,error:", err)
+		return
+	}
+	fmt.Println(userListModelP)
+	userinfoList, err := db.SelectUserList(userListModelP.Page, userListModelP.PageSize)
+	if err != nil {
+		log.Println("select user list failed! err ", err)
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "success",
+		"data": &userinfoList,
 	})
 }

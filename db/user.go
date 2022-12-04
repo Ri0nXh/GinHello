@@ -2,6 +2,7 @@ package db
 
 import (
 	"GinHello/model"
+	"fmt"
 	"log"
 )
 
@@ -30,4 +31,20 @@ func UserLogin(u *model.UserLogin) (user *model.UserInfo, err error) {
 		err = DBConn.QueryRow(sql, u.Email, u.Password).Scan(&userinfo.Id, &userinfo.Username, &userinfo.Email)
 	}
 	return &userinfo, err
+}
+
+func SelectUserList(page int, pageSize int) (userinfoList []*model.UserInfo, err error) {
+	sql := "select id, username, email from ginhello_user limit ? offset ?"
+	rows, err := DBConn.Query(sql, pageSize, page)
+	defer rows.Close()
+
+	for rows.Next() {
+		userinfo := model.UserInfo{}
+		err := rows.Scan(&userinfo.Id, &userinfo.Username, &userinfo.Email)
+		if err != nil {
+			fmt.Println("scan userinfo failed!, err", err)
+		}
+		userinfoList = append(userinfoList, &userinfo)
+	}
+	return userinfoList, err
 }
